@@ -1,78 +1,11 @@
 export default {
   async fetch(request, env, ctx) {
-    const { searchParams } = new URL(request.url);
+    const html = `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>The Bloodstained Archive</title><style>:root{--paper:#c5a880;--paper-dark:#a68b66;--blood:#7b0000;--blood-dark:#4a0000;--ink:#2b1d0e}body{background-color:#080808;background-image:radial-gradient(circle,#1a1010 0%,#000 100%);margin:0;padding:60px 20px;font-family:'Georgia','Times New Roman',serif;display:flex;justify-content:center}.parchment-scroll{width:100%;max-width:850px;background-color:var(--paper);background-image:url('https://www.transparenttextures.com/patterns/paper-fibers.png'),radial-gradient(circle at 10% 20%,rgba(123,0,0,0.4) 0%,transparent 40%),radial-gradient(circle at 90% 80%,rgba(74,0,0,0.3) 0%,transparent 50%),linear-gradient(to bottom,transparent 0%,rgba(0,0,0,0.05) 100%);box-shadow:0 0 50px rgba(0,0,0,0.8),inset 0 0 100px rgba(0,0,0,0.2);border:2px solid var(--paper-dark);position:relative;color:var(--ink);overflow:hidden}.blood-drip{position:absolute;top:0;left:15%;width:2px;height:150px;background:linear-gradient(to bottom,var(--blood),transparent);opacity:0.6}.archive-header{padding:60px 60px 40px 60px;text-align:center;border-bottom:2px solid rgba(123,0,0,0.2)}.archive-header h1{font-size:3rem;margin:0;letter-spacing:5px;color:var(--blood-dark);text-shadow:1px 1px 2px rgba(0,0,0,0.1)}.intro-content{margin-top:30px;font-size:1.1rem;line-height:1.8;font-style:italic}details{border-bottom:1px solid rgba(0,0,0,0.1);transition:all .3s}summary{padding:30px 60px;font-size:1.3rem;font-weight:bold;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;outline:none;transition:background 0.3s}summary:hover{background:rgba(123,0,0,0.05);color:var(--blood)}details[open] summary{background:rgba(123,0,0,0.1);color:var(--blood-dark)}summary::after{content:'†';font-size:1.5rem}.section-content{padding:0 60px 40px 60px;animation:fadeIn .6s ease}.nested-box{margin-top:15px;border:1px solid rgba(123,0,0,0.2);background:rgba(0,0,0,0.03)}.nested-box summary{padding:15px 25px;font-size:1rem}.visual-frame{margin:20px 0;text-align:center}.visual-frame img{max-width:100%;border:1px solid rgba(0,0,0,0.2);filter:sepia(0.4) contrast(1.1) brightness(0.9);box-shadow:5px 5px 15px rgba(0,0,0,0.1)}@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}</style></head><body><div class="parchment-scroll"><div class="blood-drip"></div><header class="archive-header"><h1>THE FORBIDDEN LOG</h1><div class="intro-content"><div class="visual-frame"><img src="https://my-svg-worker.gye69937.workers.dev?layout=alert&title=Forbidden%20Document&content=You%20are%20now%20part%20of%20this%20revenge.&color=4a0000"></div><p>이곳은 기록되지 말았어야 할 복수의 흔적들입니다.<br>피로 쓰인 문장들은 지워지지 않으며, 오직 결말만을 향해 달려갑니다.</p></div></header><details><summary>SECTION I. THE GENESIS</summary><div class="section-content"><div class="visual-frame"><img src="https://my-svg-worker.gye69937.workers.dev?layout=alert&title=Genesis&content=The%20beginning%20of%20the%20end.&color=7b0000"></div></div></details><details open><summary>SECTION II. THE CONDEMNED</summary><div class="section-content"><details class="nested-box"><summary>SUBJECT 001</summary><div class="section-content"><div class="visual-frame"><img src="https://my-svg-worker.gye69937.workers.dev?layout=profile&title=Subject%20001&sub=Executioner&content=Ready%20to%20hunt.&color=4a0000"></div></div></details><details class="nested-box"><summary>SUBJECT 002</summary><div class="section-content"><div class="visual-frame"><img src="https://my-svg-worker.gye69937.workers.dev?layout=profile&title=Subject%20002&sub=Traitor&content=Judgment%20is%20near.&color=2b1d0e"></div></div></details><details class="nested-box"><summary>SUBJECT 003</summary><div class="section-content"><div class="visual-frame"><img src="https://my-svg-worker.gye69937.workers.dev?layout=profile&title=Subject%20003&sub=Ally&content=Truth%20costs%20blood.&color=7b0000"></div></div></details></div></details><details><summary>SECTION III. FINAL RITES</summary><div class="section-content"><div class="visual-frame"><img src="https://my-svg-worker.gye69937.workers.dev?layout=stats&title=Final%20Rites&content=Sync:100,Status:Active&color=4a0000"></div></div></details></div></body></html>`;
 
-    // Get parameters
-    const layout = searchParams.get('layout') || 'alert';
-    const title = searchParams.get('title') || 'Notification';
-    const content = searchParams.get('content') || '';
-    const sub = searchParams.get('sub') || '';
-    const color = searchParams.get('color') || '6366f1'; // Default Indigo
-
-    let svgBody = '';
-    let height = 200;
-    const width = 450;
-
-    // Layout Logic
-    if (layout === 'alert') {
-      height = 160;
-      svgBody = `
-        <rect width="100%" height="100%" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
-        <rect width="6" height="100%" rx="3" fill="#${color}" x="0" y="0"/>
-        <text x="30" y="45" font-family="sans-serif" font-size="18" font-weight="bold" fill="#111827">${title}</text>
-        <foreignObject x="30" y="65" width="390" height="80">
-          <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:sans-serif; font-size:14px; color:#4b5563; line-height:1.5; word-wrap:break-word;">
-            ${content.replace(/\n/g, '<br/>')}
-          </div>
-        </foreignObject>
-      `;
-    } else if (layout === 'profile') {
-      height = 180;
-      svgBody = `
-        <defs>
-          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#${color};stop-opacity:0.1" />
-            <stop offset="100%" style="stop-color:#${color};stop-opacity:0.02" />
-          </linearGradient>
-        </defs>
-        <rect width="100%" height="100%" rx="24" fill="url(#grad)" stroke="#${color}" stroke-opacity="0.2" stroke-width="1"/>
-        <circle cx="60" cy="60" r="30" fill="#${color}"/>
-        <text x="60" y="68" font-family="sans-serif" font-size="24" font-weight="bold" fill="#ffffff" text-anchor="middle">${title.charAt(0)}</text>
-        <text x="110" y="55" font-family="sans-serif" font-size="20" font-weight="bold" fill="#111827">${title}</text>
-        <text x="110" y="75" font-family="sans-serif" font-size="13" font-weight="600" fill="#${color}">${sub}</text>
-        <foreignObject x="40" y="105" width="370" height="60">
-          <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:sans-serif; font-size:14px; color:#374151; line-height:1.4; font-style:italic;">
-            "${content.replace(/\n/g, '<br/>')}"
-          </div>
-        </foreignObject>
-      `;
-    } else if (layout === 'stats') {
-      height = 220;
-      const statsList = content.split(',').map(s => s.trim());
-      let statsHtml = statsList.map(s => `<div style="background:#f9fafb; padding:8px 12px; border-radius:8px; margin-bottom:6px; border-left:4px solid #${color}; font-weight:500;">${s}</div>`).join('');
-      
-      svgBody = `
-        <rect width="100%" height="100%" rx="12" fill="#111827"/>
-        <text x="25" y="40" font-family="sans-serif" font-size="16" font-weight="bold" fill="#ffffff" opacity="0.9">${title}</text>
-        <foreignObject x="25" y="60" width="400" height="140">
-          <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:sans-serif; font-size:13px; color:#e5e7eb;">
-            ${statsHtml}
-          </div>
-        </foreignObject>
-      `;
-    }
-
-    const svg = `
-      <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        ${svgBody}
-      </svg>
-    `;
-
-    return new Response(svg, {
+    return new Response(html, {
       headers: {
-        'Content-Type': 'image/svg+xml',
-        'Cache-Control': 'public, max-age=3600'
-      }
+        "content-type": "text/html;charset=UTF-8",
+      },
     });
-  }
+  },
 };
