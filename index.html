@@ -6,11 +6,11 @@
     <title>The Bloodstained Archive</title>
     <style>
         :root {
-            --paper: #c5a880; /* 오래된 종이색 */
+            --paper: #c5a880; 
             --paper-dark: #a68b66;
             --blood: #7b0000;
             --blood-dark: #4a0000;
-            --ink: #2b1d0e; /* 고전적인 잉크색 */
+            --ink: #2b1d0e;
         }
 
         body {
@@ -20,15 +20,14 @@
             padding: 60px 20px;
             font-family: 'Georgia', 'Times New Roman', serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* 전체 고문서 컨테이너 */
         .parchment-scroll {
             width: 100%;
             max-width: 850px;
             background-color: var(--paper);
-            /* 종이 질감과 피 얼룩 레이어링 */
             background-image: 
                 url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
                 radial-gradient(circle at 10% 20%, rgba(123, 0, 0, 0.4) 0%, transparent 40%),
@@ -39,9 +38,9 @@
             position: relative;
             color: var(--ink);
             overflow: hidden;
+            margin-bottom: 50px;
         }
 
-        /* 피가 흐르는 효과 (상단) */
         .blood-drip {
             position: absolute;
             top: 0; left: 15%;
@@ -50,7 +49,6 @@
             opacity: 0.6;
         }
 
-        /* 1. 상단 자유 서술 고문서 영역 */
         .archive-header {
             padding: 60px 60px 40px 60px;
             text-align: center;
@@ -70,15 +68,9 @@
             font-size: 1.1rem;
             line-height: 1.8;
             font-style: italic;
-            /* 이곳에 사용자가 글을 적을 수 있습니다 */
         }
 
-        /* 2. 단락(Accordion) 스타일 - 종이와 일체감 부여 */
-        details {
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-
+        details { border-bottom: 1px solid rgba(0,0,0,0.1); transition: all 0.3s; }
         summary {
             padding: 30px 60px;
             font-size: 1.3rem;
@@ -89,53 +81,20 @@
             justify-content: space-between;
             align-items: center;
             outline: none;
-            transition: background 0.3s;
         }
+        summary:hover { background: rgba(123, 0, 0, 0.05); color: var(--blood); }
+        details[open] summary { background: rgba(123, 0, 0, 0.1); color: var(--blood-dark); }
+        summary::after { content: '†'; font-size: 1.5rem; }
 
-        summary:hover {
-            background: rgba(123, 0, 0, 0.05);
-            color: var(--blood);
-        }
+        .section-content { padding: 0 60px 40px 60px; animation: fadeIn 0.6s ease; }
+        .nested-box { margin-top: 15px; border: 1px solid rgba(123, 0, 0, 0.2); background: rgba(0, 0, 0, 0.03); }
+        .nested-box summary { padding: 15px 25px; font-size: 1rem; }
 
-        details[open] summary {
-            background: rgba(123, 0, 0, 0.1);
-            color: var(--blood-dark);
-        }
-
-        summary::after {
-            content: '†'; /* 십자가 문양으로 고딕 느낌 강조 */
-            font-size: 1.5rem;
-        }
-
-        /* 단락 내부 콘텐츠 */
-        .section-content {
-            padding: 0 60px 40px 60px;
-            animation: fadeIn 0.6s ease;
-        }
-
-        /* 중첩된 하위 단락 (2번째 섹션용) */
-        .nested-box {
-            margin-top: 15px;
-            border: 1px solid rgba(123, 0, 0, 0.2);
-            background: rgba(0, 0, 0, 0.03);
-        }
-
-        .nested-box summary {
-            padding: 15px 25px;
-            font-size: 1rem;
-        }
-
-        /* 이미지 및 데이터 박스 */
-        .visual-frame {
-            margin: 20px 0;
-            text-align: center;
-        }
-
+        .visual-frame { margin: 20px 0; text-align: center; }
         .visual-frame img {
             max-width: 100%;
             border: 1px solid rgba(0,0,0,0.2);
-            /* 고문서 느낌을 위해 이미지 필터 적용 */
-            filter: sepia(0.4) contrast(1.1) brightness(0.9);
+            filter: sepia(0.3) contrast(1.1);
             box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
         }
 
@@ -150,13 +109,12 @@
 <div class="parchment-scroll">
     <div class="blood-drip"></div>
     
-    <!-- [상단 고문서 영역] 자유롭게 글과 이미지를 적으세요 -->
     <header class="archive-header">
         <h1>THE FORBIDDEN LOG</h1>
         <div class="intro-content">
-            <!-- 여기에 작품의 메인 시놉시스나 경고 문구를 적으세요 -->
             <div class="visual-frame">
-                <!-- ![system] 이미지 삽입 위치 -->
+                <!-- 시스템 알림 레이아웃 적용 -->
+                <img src="https://[YOUR_WORKER_URL].workers.dev?layout=alert&title=접속+성공&content=금지된+구역에+들어오셨습니다.\n모든+기록은+피로+새겨집니다.&color=7b0000" alt="system_alert">
             </div>
             <p>
                 이곳은 기록되지 말았어야 할 복수의 흔적들입니다.<br>
@@ -165,45 +123,32 @@
         </div>
     </header>
 
-    <!-- [단락 1] -->
     <details>
         <summary>SECTION I. THE GENESIS</summary>
         <div class="section-content">
-            <div class="visual-frame">
-                <!-- 이미지 삽입 -->
-            </div>
-            <p><!-- 텍스트 입력 --></p>
+            <p>태초에 어둠이 있었고, 그 어둠 속에서 첫 번째 비명이 울려 퍼졌습니다.</p>
         </div>
     </details>
 
-    <!-- [단락 2] 중첩 구조 -->
     <details open>
         <summary>SECTION II. THE CONDEMNED</summary>
         <div class="section-content">
             
             <details class="nested-box">
-                <summary>SUBJECT 001</summary>
+                <summary>SUBJECT 001: THE FALLEN</summary>
                 <div class="section-content">
                     <div class="visual-frame">
-                        <!-- 캐릭터 profile 이미지 삽입 -->
+                        <!-- 프로필 레이아웃 적용 -->
+                        <img src="https://[YOUR_WORKER_URL].workers.dev?layout=profile&title=타락한+기사&sub=심연의+감시자&content=성배를+지키던+자였으나,+지금은+피의+갈증에+굴복했습니다.&color=4a0000" alt="profile_knight">
                     </div>
                 </div>
             </details>
 
             <details class="nested-box">
-                <summary>SUBJECT 002</summary>
+                <summary>SUBJECT 002: THE WITCH</summary>
                 <div class="section-content">
                     <div class="visual-frame">
-                        <!-- 캐릭터 profile 이미지 삽입 -->
-                    </div>
-                </div>
-            </details>
-
-            <details class="nested-box">
-                <summary>SUBJECT 003</summary>
-                <div class="section-content">
-                    <div class="visual-frame">
-                        <!-- 캐릭터 profile 이미지 삽입 -->
+                        <img src="https://[YOUR_WORKER_URL].workers.dev?layout=profile&title=피의+마녀&sub=금지된+술사&content=타인의+생명을+매개체로+시간을+되돌리는+금기를+범했습니다.&color=7b0000" alt="profile_witch">
                     </div>
                 </div>
             </details>
@@ -211,17 +156,16 @@
         </div>
     </details>
 
-    <!-- [단락 3] -->
     <details>
         <summary>SECTION III. FINAL RITES</summary>
         <div class="section-content">
             <div class="visual-frame">
-                <!-- stats 이미지 삽입 -->
+                <!-- 능력치/통계 레이아웃 적용 -->
+                <img src="https://[YOUR_WORKER_URL].workers.dev?layout=stats&title=아카이브+오염도&content=잔혹도:+95%,해독률:+12%,위험도:+Critical&color=2b1d0e" alt="archive_stats">
             </div>
-            <p><!-- 텍스트 입력 --></p>
+            <p>모든 기록이 완료되었습니다. 이제 당신의 차례입니다.</p>
         </div>
     </details>
-
 </div>
 
 </body>
