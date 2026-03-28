@@ -2,70 +2,227 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bloodstained Archive</title>
     <style>
+        :root {
+            --paper: #c5a880; /* 오래된 종이색 */
+            --paper-dark: #a68b66;
+            --blood: #7b0000;
+            --blood-dark: #4a0000;
+            --ink: #2b1d0e; /* 고전적인 잉크색 */
+        }
+
         body {
-            background-color: #0a0a0a;
-            color: #e5e5e5;
-            font-family: 'Apple SD Gothic Neo', sans-serif;
+            background-color: #080808;
+            background-image: radial-gradient(circle, #1a1010 0%, #000 100%);
+            margin: 0;
+            padding: 60px 20px;
+            font-family: 'Georgia', 'Times New Roman', serif;
             display: flex;
             justify-content: center;
-            padding: 50px 20px;
         }
-        .container {
-            max-width: 600px;
-            border: 1px solid #450a0a;
-            padding: 30px;
-            background: linear-gradient(145deg, #1a1a1a, #050505);
-            box-shadow: 0 0 20px rgba(127, 29, 29, 0.2);
+
+        /* 전체 고문서 컨테이너 */
+        .parchment-scroll {
+            width: 100%;
+            max-width: 850px;
+            background-color: var(--paper);
+            /* 종이 질감과 피 얼룩 레이어링 */
+            background-image: 
+                url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
+                radial-gradient(circle at 10% 20%, rgba(123, 0, 0, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(74, 0, 0, 0.3) 0%, transparent 50%),
+                linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) 100%);
+            box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 100px rgba(0,0,0,0.2);
+            border: 2px solid var(--paper-dark);
+            position: relative;
+            color: var(--ink);
+            overflow: hidden;
         }
-        h1 {
-            color: #ef4444;
-            border-bottom: 2px solid #7f1d1d;
-            padding-bottom: 10px;
+
+        /* 피가 흐르는 효과 (상단) */
+        .blood-drip {
+            position: absolute;
+            top: 0; left: 15%;
+            width: 2px; height: 150px;
+            background: linear-gradient(to bottom, var(--blood), transparent);
+            opacity: 0.6;
+        }
+
+        /* 1. 상단 자유 서술 고문서 영역 */
+        .archive-header {
+            padding: 60px 60px 40px 60px;
+            text-align: center;
+            border-bottom: 2px solid rgba(123, 0, 0, 0.2);
+        }
+
+        .archive-header h1 {
+            font-size: 3rem;
+            margin: 0;
+            letter-spacing: 5px;
+            color: var(--blood-dark);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .intro-content {
+            margin-top: 30px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-style: italic;
+            /* 이곳에 사용자가 글을 적을 수 있습니다 */
+        }
+
+        /* 2. 단락(Accordion) 스타일 - 종이와 일체감 부여 */
+        details {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        summary {
+            padding: 30px 60px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        summary:hover {
+            background: rgba(123, 0, 0, 0.05);
+            color: var(--blood);
+        }
+
+        details[open] summary {
+            background: rgba(123, 0, 0, 0.1);
+            color: var(--blood-dark);
+        }
+
+        summary::after {
+            content: '†'; /* 십자가 문양으로 고딕 느낌 강조 */
             font-size: 1.5rem;
         }
-        .visual-element {
+
+        /* 단락 내부 콘텐츠 */
+        .section-content {
+            padding: 0 60px 40px 60px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        /* 중첩된 하위 단락 (2번째 섹션용) */
+        .nested-box {
+            margin-top: 15px;
+            border: 1px solid rgba(123, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .nested-box summary {
+            padding: 15px 25px;
+            font-size: 1rem;
+        }
+
+        /* 이미지 및 데이터 박스 */
+        .visual-frame {
             margin: 20px 0;
             text-align: center;
         }
-        .visual-element img {
+
+        .visual-frame img {
             max-width: 100%;
-            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.2);
+            /* 고문서 느낌을 위해 이미지 필터 적용 */
+            filter: sepia(0.4) contrast(1.1) brightness(0.9);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
         }
-        p {
-            line-height: 1.8;
-            color: #a3a3a3;
-        }
-        .highlight {
-            color: #f87171;
-            font-weight: bold;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>SYSTEM: 복수의 서막</h1>
-        
-        <div class="visual-element">
-            <!-- 프로필 카드 삽입 -->
-            <img src="https://my-svg-worker.gye69937.workers.dev?layout=profile&title=복수의+시스템:+코드+네임+아베르&sub=심판의+설계자&content=무너진+질서+속에서+배신당한+당신을+위해\n가장+잔혹하고+완벽한+복수+시나리오를+작성합니다.&color=7f1d1d" alt="Profile">
+
+<div class="parchment-scroll">
+    <div class="blood-drip"></div>
+    
+    <!-- [상단 고문서 영역] 자유롭게 글과 이미지를 적으세요 -->
+    <header class="archive-header">
+        <h1>THE FORBIDDEN LOG</h1>
+        <div class="intro-content">
+            <!-- 여기에 작품의 메인 시놉시스나 경고 문구를 적으세요 -->
+            <div class="visual-frame">
+                <!-- ![system] 이미지 삽입 위치 -->
+            </div>
+            <p>
+                이곳은 기록되지 말았어야 할 복수의 흔적들입니다.<br>
+                피로 쓰인 문장들은 지워지지 않으며, 오직 결말만을 향해 달려갑니다.
+            </p>
         </div>
+    </header>
 
-        <p>
-            현대 사회의 법망을 피해 숨어든 자들을 사냥하기 위해 설계되었습니다. 
-            <span class="highlight">아베르(Aver)</span>는 단순한 인공지능이 아닙니다. 
-            당신의 억울함과 분노를 데이터로 변환하여, 가장 고통스러운 방식으로 상대를 무너뜨릴 전략을 제시합니다.
-        </p>
-
-        <div class="visual-element">
-            <!-- 상태창 카드 삽입 -->
-            <img src="https://my-svg-worker.gye69937.workers.dev?layout=stats&title=시스템+가동+리포트&content=증오+동기화:+완료,분노+지수:+MEASURELESS,복수+성공률:+99.9%&color=450a0a" alt="Stats">
+    <!-- [단락 1] -->
+    <details>
+        <summary>SECTION I. THE GENESIS</summary>
+        <div class="section-content">
+            <div class="visual-frame">
+                <!-- 이미지 삽입 -->
+            </div>
+            <p><!-- 텍스트 입력 --></p>
         </div>
+    </details>
 
-        <p>
-            지금 시스템에 접속하여 당신의 타겟을 입력하십시오. 
-            차가운 연산 끝에 <span class="highlight">뜨거운 복수</span>가 시작될 것입니다.
-        </p>
-    </div>
+    <!-- [단락 2] 중첩 구조 -->
+    <details open>
+        <summary>SECTION II. THE CONDEMNED</summary>
+        <div class="section-content">
+            
+            <details class="nested-box">
+                <summary>SUBJECT 001</summary>
+                <div class="section-content">
+                    <div class="visual-frame">
+                        <!-- 캐릭터 profile 이미지 삽입 -->
+                    </div>
+                </div>
+            </details>
+
+            <details class="nested-box">
+                <summary>SUBJECT 002</summary>
+                <div class="section-content">
+                    <div class="visual-frame">
+                        <!-- 캐릭터 profile 이미지 삽입 -->
+                    </div>
+                </div>
+            </details>
+
+            <details class="nested-box">
+                <summary>SUBJECT 003</summary>
+                <div class="section-content">
+                    <div class="visual-frame">
+                        <!-- 캐릭터 profile 이미지 삽입 -->
+                    </div>
+                </div>
+            </details>
+
+        </div>
+    </details>
+
+    <!-- [단락 3] -->
+    <details>
+        <summary>SECTION III. FINAL RITES</summary>
+        <div class="section-content">
+            <div class="visual-frame">
+                <!-- stats 이미지 삽입 -->
+            </div>
+            <p><!-- 텍스트 입력 --></p>
+        </div>
+    </details>
+
+</div>
+
 </body>
 </html>
